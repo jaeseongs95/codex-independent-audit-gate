@@ -1,0 +1,7 @@
+interface:
+  display_name: "Independent Audit Gate"
+  short_description: "고위험 변경을 독립 감사하고 완료 가능 여부를 판정합니다"
+  default_prompt: "Use $independent-audit-gate to audit the final high-risk change and determine whether it may be marked complete."
+
+policy:
+  allow_implicit_invocation: true
