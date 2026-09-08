@@ -7,6 +7,7 @@
 `phase`는 다음 중 하나다.
 
 - `pre-execution`: 비가역적이거나 외부 영향을 주는 변경 실행 직전
+- `post-execution`: 비배포 고위험 작업을 실행한 뒤 결과와 영향을 확인할 때
 - `pre-deploy`: 검증된 최종 후보를 병합·배포·공개하기 직전
 - `post-deploy`: 실제 배포 또는 공개 릴리스 뒤 상태 확인
 
@@ -46,7 +47,7 @@
 다음 입력을 가능한 범위에서 완결해 전달한다.
 
 ```yaml
-phase: "pre-execution | pre-deploy | post-deploy"
+phase: "pre-execution | post-execution | pre-deploy | post-deploy"
 requirements: []
 applicable_instructions: []
 risk_classification:
@@ -83,6 +84,7 @@ known_limitations: []
 - 테스트 명령과 원시 결과를 재현하거나 신뢰할 수 있는 출처에서 확인했는가
 - 실패 경로, 부분 실패, 재시도, rollback과 복구 절차를 검증했는가
 - 권한, 데이터, 금전, 호환성, 가용성과 공급망 영향이 누락되지 않았는가
+- `post-execution`이라면 실제 실행 ID, 최종 상태, 영향 범위, 부분 실패, 데이터 정합성과 복구 필요성을 확인했는가
 - `post-deploy`라면 실제 배포 ID, 공개 상태, smoke test, 관측 결과와 rollback 필요성을 확인했는가
 
 증거 우선순위는 사용자 제공 요구사항, 실제 파일·diff·데이터·로그·재현 가능한 테스트, 공식 계약·명세, 논리적 추론 순이다. 에이전트의 주장이나 같은 결론의 반복은 증거 수준을 높이지 않는다.

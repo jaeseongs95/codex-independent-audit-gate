@@ -2,7 +2,7 @@
 
 `independent-audit-gate` is a Codex skill that checks whether a high-risk change has received an independent, evidence-based audit before it is marked complete.
 
-보안·권한·결제·데이터 손실·스키마 마이그레이션·프로덕션 배포·전역 설정처럼 실패 영향이 큰 변경을 완료하기 전에 사용합니다. 구현에 참여하지 않은 감사자가 최종 변경과 검증 자료를 직접 확인하고 `PASS`, `FAIL`, `BLOCKED` 중 하나로 판정합니다.
+보안·권한·결제·데이터 손실·스키마 마이그레이션·프로덕션 배포·전역 설정처럼 실패 영향이 큰 변경을 완료하기 전에 사용합니다. 구현에 참여하지 않은 감사자가 최종 변경과 검증 자료를 직접 확인하고 `PASS`, `FAIL`, `BLOCKED` 중 하나로 판정합니다. 실제 상태를 바꾼 뒤에는 실행·배포 식별자, 영향 범위, 부분 실패와 복구 필요성도 확인합니다.
 
 ## 언제 사용하나요
 
