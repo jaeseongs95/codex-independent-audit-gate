@@ -23,3 +23,5 @@ jobs:
           python-version: '3.12'
       - name: Validate skill package
         run: python scripts/validate_skill.py --strict
+      - name: Validate plugin component fixture
+        run: python scripts/test_plugin_component.py

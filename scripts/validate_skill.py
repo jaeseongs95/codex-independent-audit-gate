@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the standalone independent-audit-gate skill package."""
+"""Validate the standalone or plugin-bundled independent-audit-gate skill."""
 
 from __future__ import annotations
 
@@ -10,10 +10,13 @@ from pathlib import Path
 
 
 EXPECTED_NAME = "independent-audit-gate"
-REQUIRED_FILES = (
+CORE_REQUIRED_FILES = (
     "SKILL.md",
     "agents/openai.yaml",
     "references/audit-protocol.md",
+    "references/orchestrator-integration.md",
+)
+STANDALONE_REQUIRED_FILES = (
     "README.md",
     "LICENSE",
     ".gitattributes",
@@ -82,13 +85,44 @@ def validate_links(root: Path, relative: Path, text: str, errors: list[str]) -> 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
+    parser.add_argument(
+        "--profile",
+        choices=("auto", "standalone", "plugin-component"),
+        default="auto",
+        help="validation profile; auto detects a skill nested under a supported plugin manifest",
+    )
     parser.add_argument("--strict", action="store_true", help="enable public-release hygiene checks")
     args = parser.parse_args()
 
     root = args.root.resolve()
     errors: list[str] = []
 
-    for relative in REQUIRED_FILES:
+    plugin_root = root.parent.parent if root.parent.name == "skills" else None
+    plugin_manifests = (
+        (plugin_root / "plugin.json", plugin_root / ".codex-plugin/plugin.json")
+        if plugin_root is not None
+        else ()
+    )
+    detected_plugin_component = (
+        root.name == EXPECTED_NAME
+        and plugin_root is not None
+        and any(path.is_file() for path in plugin_manifests)
+    )
+    profile = args.profile
+    if profile == "auto":
+        profile = "plugin-component" if detected_plugin_component else "standalone"
+
+    if profile == "plugin-component" and not detected_plugin_component:
+        errors.append(
+            "plugin-component profile requires skills/independent-audit-gate under a plugin root "
+            "containing plugin.json or .codex-plugin/plugin.json"
+        )
+
+    required_files = CORE_REQUIRED_FILES
+    if profile == "standalone":
+        required_files += STANDALONE_REQUIRED_FILES
+
+    for relative in required_files:
         if not (root / relative).is_file():
             errors.append(f"missing required file: {relative}")
 
@@ -143,7 +177,7 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print(f"Skill validation passed: {root}")
+    print(f"Skill validation passed ({profile}): {root}")
     return 0
 
 
