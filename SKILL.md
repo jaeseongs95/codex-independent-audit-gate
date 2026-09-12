@@ -3,7 +3,7 @@ name: independent-audit-gate
 description: 보안·권한·결제·데이터 손실·스키마 마이그레이션·프로덕션 배포·전역 설정처럼 실패 영향이 큰 변경을 실행하거나 릴리스하기 전후에, 구현자와 분리된 감사자가 최종 변경과 검증 근거를 직접 확인하고 완료 가능 여부를 판정한다. 단순 조사, 저위험 수정, 일반 코드 리뷰, 구현 없는 설계 토론에는 사용하지 않는다.
 license: MIT
 metadata:
-  version: "0.1.1"
+  version: "1.0.0"
 ---
 
 # Independent Audit Gate

@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 EXPECTED_NAME = "independent-audit-gate"
+EXPECTED_VERSION = "1.0.0"
 CORE_REQUIRED_FILES = (
     "SKILL.md",
     "agents/openai.yaml",
@@ -140,6 +141,10 @@ def main() -> int:
         errors.append("SKILL.md: description is required")
     if len(description) > 1024:
         errors.append("SKILL.md: description must be at most 1024 characters")
+    version_line = next((line for line in skill_text.splitlines() if line.startswith("  version:")), "")
+    version = version_line.split(":", 1)[1].strip().strip('"\'') if version_line else ""
+    if version != EXPECTED_VERSION:
+        errors.append(f"SKILL.md: metadata.version must be {EXPECTED_VERSION!r}, got {version!r}")
 
     openai_path = root / "agents/openai.yaml"
     openai_text = read_utf8(openai_path, errors) if openai_path.is_file() else ""
@@ -149,7 +154,7 @@ def main() -> int:
         if not re.search(r"^\s*allow_implicit_invocation:\s*true\s*$", openai_text, re.MULTILINE):
             errors.append("agents/openai.yaml: allow_implicit_invocation must be true")
         if re.search(r"^dependencies:\s*$", openai_text, re.MULTILINE):
-            errors.append("agents/openai.yaml: runtime dependencies are not allowed in v0.1")
+            errors.append("agents/openai.yaml: runtime dependencies are not allowed")
 
     tracked_candidates = [
         path

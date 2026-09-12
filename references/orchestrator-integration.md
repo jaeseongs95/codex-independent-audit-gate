@@ -1,6 +1,6 @@
 # Orchestrator Integration
 
-이 문서는 `independent-audit-gate`를 여러 전문 스킬이 참여하는 오케스트레이션 흐름에 연결할 때 사용한다. v0.1의 연동 방식은 자연어 briefing과 구조화된 Markdown 결과이며, 별도 API나 `audit-run.json`을 요구하지 않는다.
+이 문서는 `independent-audit-gate`를 여러 전문 스킬이 참여하는 오케스트레이션 흐름에 연결할 때 사용한다. v1.0의 연동 방식은 자연어 briefing과 구조화된 Markdown 결과이며, 별도 API나 `audit-run.json`을 요구하지 않는다.
 
 ## 1. 책임 분리
 
@@ -16,7 +16,7 @@
 orchestrator는 [audit-protocol.md](audit-protocol.md)의 감사자 briefing을 다음 논리 형식으로 전달한다. YAML 파일을 만들거나 저장할 필요는 없다.
 
 ```yaml
-contract: "independent-audit-gate/v0.1"
+contract: "independent-audit-gate/v1.0"
 mode: "orchestrated"
 phase: "pre-execution | post-execution | pre-deploy | post-deploy"
 requirements: []

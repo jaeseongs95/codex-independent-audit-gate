@@ -53,7 +53,7 @@ git clone https://github.com/jaeseongs95/codex-independent-audit-gate .agents/sk
 
 Codex가 새 스킬을 자동으로 찾지 못하면 Codex를 다시 시작합니다.
 
-특정 버전을 고정하려면 clone 명령에 `--branch v0.1.1 --depth 1`을 추가합니다.
+특정 버전을 고정하려면 clone 명령에 `--branch v1.0.0 --depth 1`을 추가합니다.
 
 ## 사용
 
