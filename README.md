@@ -1,8 +1,10 @@
 # Independent Audit Gate
 
-`independent-audit-gate` is a Codex skill that checks whether a high-risk change has received an independent, evidence-based audit before it is marked complete.
+한국어 | [English](README.en.md)
 
-보안·권한·결제·데이터 손실·스키마 마이그레이션·프로덕션 배포·전역 설정처럼 실패 영향이 큰 변경을 완료하기 전에 사용합니다. 구현에 참여하지 않은 감사자가 최종 변경과 검증 자료를 직접 확인하고 `PASS`, `FAIL`, `BLOCKED` 중 하나로 판정합니다. 실제 상태를 바꾼 뒤에는 실행·배포 식별자, 영향 범위, 부분 실패와 복구 필요성도 확인합니다.
+`independent-audit-gate`는 고위험 변경을 완료하기 전에 독립적이고 증거에 기반한 감사를 받았는지 확인하는 Codex 스킬입니다.
+
+보안·권한·결제·데이터 손실·스키마 마이그레이션·프로덕션 배포·전역 설정처럼 실패했을 때 영향이 큰 변경에 사용합니다. 구현에 참여하지 않은 감사자가 최종 변경과 검증 자료를 직접 확인한 뒤 `PASS`, `FAIL`, `BLOCKED` 중 하나로 판정합니다. 실제 상태를 바꾼 뒤에는 실행·배포 식별자, 영향 범위, 부분 실패 여부와 복구 필요성도 확인합니다.
 
 ## 언제 사용하나요
 
@@ -15,7 +17,7 @@
 - 프로덕션 배포, 공개 릴리스, 인프라와 CI/CD 변경
 - 조직이나 프로젝트 전체에 적용되는 설정 변경
 
-단순 조사, 저위험 수정, 일반 코드 리뷰, 구현할 대상이 없는 설계 토론에는 사용하지 않습니다. 복잡한 판단을 여러 관점에서 논쟁하고 합의안을 만드는 `independent-deliberation-panel`과도 역할이 다릅니다. 이 스킬은 패널이나 Judge를 구성하지 않고, 최종 변경에 독립 감사와 완료 게이트가 제대로 적용됐는지만 다룹니다.
+단순 조사, 저위험 수정, 일반 코드 리뷰, 구현 대상이 없는 설계 토론에는 사용하지 않습니다. 복잡한 판단을 여러 관점에서 검토하고 합의안을 만드는 `independent-deliberation-panel`과도 역할이 다릅니다. 이 스킬은 패널이나 Judge를 구성하지 않고, 최종 변경에 독립 감사와 완료 게이트가 제대로 적용됐는지만 확인합니다.
 
 ## 설치
 
@@ -95,11 +97,15 @@ git -C "$HOME/.agents/skills/independent-audit-gate" pull --ff-only
 
 제거할 때는 설치한 `independent-audit-gate` 디렉터리만 삭제합니다. 다른 스킬 디렉터리나 `.agents` 상위 폴더는 삭제하지 마세요.
 
-## 플러그인에 포함하기
+## 단독 사용과 통합 사용
+
+이 스킬은 이 저장소에서 단독으로 설치해 사용할 수 있습니다. 여러 거버넌스 스킬을 한 흐름에서 운용하려면 [Agent Governance Suite](https://github.com/jaeseongs95/agent-governance-suite)에 통합된 버전을 사용할 수 있습니다.
+
+## 플러그인에 통합하기
 
 여러 전문 스킬을 묶은 오케스트레이션 플러그인에는 이 저장소의 `SKILL.md`, `agents/`, `references/`, `scripts/`를 `skills/independent-audit-gate/` 아래에 복사합니다. 플러그인 루트에는 대상 도구가 지원하는 `plugin.json` 또는 `.codex-plugin/plugin.json`이 있어야 합니다. `README.md`, `LICENSE`, `.github/`, `.gitattributes`, `.gitignore`는 플러그인 루트에서 관리합니다.
 
-연동할 때는 [orchestrator integration guide](references/orchestrator-integration.md)에 정의된 책임 분리와 handoff 형식을 따릅니다. orchestrator는 요청 분류와 감사자 배정을 맡고, 이 스킬은 독립 감사와 `PASS`, `FAIL`, `BLOCKED` 판정을 맡습니다. 복사한 하위 스킬 디렉터리에서 다음 명령으로 구성요소를 검사할 수 있습니다.
+연동할 때는 [orchestrator integration guide](references/orchestrator-integration.md)에 정의된 책임 분리와 handoff 형식을 따릅니다. orchestrator는 요청 분류와 감사자 배정을 맡고, 이 스킬은 독립 감사와 `PASS`, `FAIL`, `BLOCKED` 판정을 담당합니다. 복사한 하위 스킬 디렉터리에서 다음 명령으로 구성요소를 검사할 수 있습니다.
 
 ```bash
 python scripts/validate_skill.py --strict
